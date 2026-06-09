@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATUL PATIL // SDET SYSTEM</title>
+<title>ATUL PATIL // SDET &amp; QA LEAD — Test Automation Architect</title>
+<meta name="description" content="Atul Patil — SDET &amp; QA Lead in Pune. 4+ years building production-grade test automation for AI/LLM SaaS. Java, Selenium, TestNG, Rest Assured, GenAI/LLM evaluation. Led a 10-engineer QA team.">
+<meta name="author" content="Atul Patil">
+<meta property="og:title" content="Atul Patil — SDET &amp; QA Lead">
+<meta property="og:description" content="Test Automation Architect. Java/Selenium frameworks, API testing, and GenAI/LLM quality engineering.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -102,12 +107,12 @@ nav{
 nav .brand{color:var(--cyan);text-shadow:var(--glow);font-weight:700;display:flex;align-items:center;gap:9px}
 nav .brand .dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:var(--glow);animation:pulse 1.6s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-nav .links{display:flex;gap:26px}
+nav .links{display:flex;gap:24px}
 nav .links a{color:var(--text-dim);text-decoration:none;transition:.25s;position:relative}
 nav .links a:hover{color:var(--cyan);text-shadow:var(--glow)}
 nav .links a::before{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--cyan);transition:.3s}
 nav .links a:hover::before{width:100%}
-@media(max-width:760px){nav .links{display:none}nav{padding:16px 20px}}
+@media(max-width:900px){nav .links{display:none}nav{padding:16px 20px}}
 
 /* ===== LAYOUT ===== */
 .wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 28px}
@@ -128,6 +133,9 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 .hero-name span{display:block;color:var(--cyan);text-shadow:0 0 22px rgba(57,231,255,.5)}
 .hero-role{font-family:var(--mono);font-size:clamp(13px,1.8vw,17px);letter-spacing:3px;color:var(--text-dim);margin:24px 0 8px}
 .hero-role b{color:var(--text)}
+.hero-type{font-family:var(--mono);font-size:13px;letter-spacing:2px;color:var(--cyan);min-height:22px;margin-bottom:14px}
+.hero-type .cur{display:inline-block;width:9px;height:16px;background:var(--cyan);margin-left:3px;vertical-align:middle;animation:blink 1s steps(1) infinite;box-shadow:var(--glow)}
+@keyframes blink{50%{opacity:0}}
 .hero-desc{max-width:520px;color:var(--text-dim);font-size:16px;margin-bottom:34px}
 .hero-desc em{color:var(--cyan);font-style:normal}
 .cta{display:flex;gap:16px;flex-wrap:wrap}
@@ -139,6 +147,8 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 }
 .btn:hover{background:var(--cyan);color:#04080d;box-shadow:var(--glow)}
 .btn.solid{background:rgba(57,231,255,.1)}
+.btn.amber{color:var(--amber);border-color:rgba(255,179,71,.45);background:rgba(255,179,71,.05)}
+.btn.amber:hover{background:var(--amber);color:#04080d;box-shadow:0 0 12px rgba(255,179,71,.55)}
 
 /* hero HUD reticle panel */
 .reticle{position:relative;aspect-ratio:1;display:grid;place-items:center}
@@ -175,8 +185,8 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 .about-text strong{color:var(--text)}
 .about-text .hl{color:var(--cyan)}
 .readout{font-family:var(--mono);font-size:13px}
-.readout .row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line)}
-.readout .row span:first-child{color:var(--text-dim);letter-spacing:1px}
+.readout .row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line);gap:14px}
+.readout .row span:first-child{color:var(--text-dim);letter-spacing:1px;white-space:nowrap}
 .readout .row span:last-child{color:var(--cyan);text-align:right}
 
 /* ===== SKILLS ===== */
@@ -189,6 +199,9 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 .skill-item .nm span:last-child{color:var(--cyan-dim)}
 .meter{height:5px;background:rgba(57,231,255,.1);overflow:hidden;position:relative}
 .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan-dim),var(--cyan));box-shadow:var(--glow);transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;padding:6px 12px;border:1px solid var(--line);color:var(--text-dim);background:var(--bg2);transition:.2s}
+.chip:hover{border-color:var(--line-bright);color:var(--cyan)}
 
 /* ===== GENAI HIGHLIGHT ===== */
 .genai{border:1px solid var(--line-bright);background:linear-gradient(140deg,rgba(57,231,255,.07),rgba(255,179,71,.04));padding:42px;position:relative;overflow:hidden}
@@ -203,13 +216,15 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 /* ===== PROJECTS ===== */
 .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
 @media(max-width:760px){.proj-grid{grid-template-columns:1fr}}
-.proj{padding:28px;border:1px solid var(--line);background:var(--bg2);position:relative;transition:.3s;overflow:hidden}
+.proj{padding:28px;border:1px solid var(--line);background:var(--bg2);position:relative;transition:.3s;overflow:hidden;display:flex;flex-direction:column}
 .proj::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--cyan);box-shadow:var(--glow);transition:.4s}
 .proj:hover{border-color:var(--line-bright);transform:translateY(-4px)}
 .proj:hover::after{width:100%}
-.proj .id{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--amber);margin-bottom:12px}
+.proj .id{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--amber);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.proj .id a{color:var(--cyan-dim);text-decoration:none;letter-spacing:1px}
+.proj .id a:hover{color:var(--cyan)}
 .proj h3{font-family:var(--disp);font-size:21px;letter-spacing:.5px;margin-bottom:12px;text-transform:uppercase}
-.proj p{color:var(--text-dim);font-size:14.5px;margin-bottom:18px}
+.proj p{color:var(--text-dim);font-size:14.5px;margin-bottom:18px;flex:1}
 .proj .stack{display:flex;flex-wrap:wrap;gap:7px}
 .proj .stack span{font-family:var(--mono);font-size:10px;color:var(--cyan-dim);border:1px solid var(--line);padding:4px 9px}
 .proj .metrics{display:flex;gap:24px;margin-bottom:18px;font-family:var(--mono)}
@@ -224,7 +239,19 @@ h2.title b{color:var(--cyan);text-shadow:var(--glow)}
 .tl-item .when{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--amber);margin-bottom:6px}
 .tl-item h3{font-family:var(--disp);font-size:20px;letter-spacing:.5px;text-transform:uppercase}
 .tl-item .co{color:var(--cyan);font-family:var(--mono);font-size:13px;margin-bottom:10px}
-.tl-item p{color:var(--text-dim);font-size:15px}
+.tl-item p{color:var(--text-dim);font-size:15px;margin-bottom:10px}
+.tl-item ul{list-style:none;margin-top:6px}
+.tl-item ul li{color:var(--text-dim);font-size:14px;padding-left:18px;position:relative;margin-bottom:7px}
+.tl-item ul li::before{content:"▹";position:absolute;left:0;color:var(--cyan-dim)}
+.tl-item ul li b{color:var(--cyan);font-weight:600}
+
+/* ===== AWARD STRIP ===== */
+.award{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:8px}
+@media(max-width:680px){.award{grid-template-columns:1fr}}
+.award .panel{padding:24px}
+.award .at{font-family:var(--disp);font-size:18px;letter-spacing:.5px;color:var(--amber);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.award .at::before{content:"✦";color:var(--amber)}
+.award p{color:var(--text-dim);font-size:14px}
 
 /* ===== CONTACT ===== */
 #contact .panel{padding:46px;text-align:center}
@@ -278,7 +305,7 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
 <div class="vignette"></div>
 <div class="hud-frame">
   <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
-  <span class="tick t-top">// SYS.PORTFOLIO.v1 — STATUS: ONLINE</span>
+  <span class="tick t-top">// SYS.PORTFOLIO.v2 — STATUS: ONLINE</span>
   <span class="tick t-bot">// PUNE · IN · 18.52°N 73.85°E</span>
 </div>
 
@@ -287,7 +314,7 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
   <div class="bootbox">
     <div class="line">> initializing core systems<span class="ok">[OK]</span></div>
     <div class="line">> loading skill matrix . . . java/selenium/rest-assured<span class="ok">[OK]</span></div>
-    <div class="line">> mounting genai test modules<span class="ok">[OK]</span></div>
+    <div class="line">> mounting genai/llm eval modules<span class="ok">[OK]</span></div>
     <div class="line">> calibrating HUD interface<span class="ok">[OK]</span></div>
     <div class="line">> authenticating operator: A.PATIL<span class="ok">[OK]</span></div>
     <div class="bar"><i></i></div>
@@ -317,14 +344,17 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
       <div class="status"><span class="live"></span>OPERATOR ONLINE · OPEN TO SENIOR SDET ROLES</div>
       <h1 class="hero-name">ATUL<span>PATIL</span></h1>
       <div class="hero-role">QA LEAD &amp; <b>SDET</b> // TEST AUTOMATION ARCHITECT</div>
-      <p class="hero-desc">Engineering reliability at scale — I design automation frameworks in <em>Java &amp; Selenium</em>, validate APIs, and pioneer testing strategies for <em>GenAI &amp; LLM</em> systems where outputs are non-deterministic.</p>
+      <div class="hero-type"><span id="typed"></span><span class="cur"></span></div>
+      <p class="hero-desc">I build production-grade test infrastructure for <em>AI/LLM-powered SaaS</em>. I architect automation frameworks in <em>Java &amp; Selenium</em>, validate REST APIs, and pioneer evaluation strategies for <em>GenAI</em> systems where every output is different.</p>
       <div class="cta">
         <a href="#projects" class="btn solid">▸ VIEW PROJECTS</a>
-        <a href="#contact" class="btn">▸ ESTABLISH CONTACT</a>
+        <a href="https://drive.google.com/file/d/1b5_Wo1zZ3IrCR9mhLdbNw3DEqVf-A-_X/view" class="btn amber" target="_blank" rel="noopener">▸ RESUME</a>
+        <a href="#contact" class="btn">▸ CONTACT</a>
       </div>
     </div>
     <div class="reticle">
-      <svg viewBox="0 0 200 200" fill="none" stroke="var(--cyan)">
+      <canvas id="orb"></canvas>
+      <svg class="reticle-rings" viewBox="0 0 200 200" fill="none" stroke="var(--cyan)">
         <circle class="ring-rot" cx="100" cy="100" r="94" stroke-width="1" stroke-dasharray="4 8" opacity=".5"></circle>
         <circle class="ring-rot rev" cx="100" cy="100" r="76" stroke-width="1.5" stroke-dasharray="40 12 8 12"></circle>
         <circle cx="100" cy="100" r="58" stroke-width="1" opacity=".4"></circle>
@@ -336,20 +366,17 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
         </g>
         <circle cx="100" cy="100" r="42" stroke="var(--amber)" stroke-width="1" opacity=".5" stroke-dasharray="2 6"></circle>
       </svg>
-      <div class="core">
-        <div class="big">4+</div>
-        <div class="lbl">YEARS · QA AUTOMATION</div>
-      </div>
+      <div class="orb-cap">// CORE.QA.ENGINE</div>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
 <div class="statbar reveal">
-  <div class="cell"><div class="v" data-count="10">0</div><div class="k">Engineers Led</div></div>
-  <div class="cell"><div class="v" data-count="211">0</div><div class="k">Test Cases Authored</div></div>
-  <div class="cell"><div class="v" data-count="13">0</div><div class="k">Automation Suites</div></div>
-  <div class="cell"><div class="v" data-count="3">0</div><div class="k">GenAI Eval Tools</div></div>
+  <div class="cell"><div class="v" data-count="4" data-suffix="+">0</div><div class="k">Years Experience</div></div>
+  <div class="cell"><div class="v" data-count="10">0</div><div class="k">QA Engineers Led</div></div>
+  <div class="cell"><div class="v" data-count="40" data-suffix="%">0</div><div class="k">Manual Effort Cut</div></div>
+  <div class="cell"><div class="v" data-count="0">0</div><div class="k">Critical Escapes</div></div>
 </div>
 
 <!-- ABOUT -->
@@ -358,18 +385,18 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
   <h2 class="title">WHO IS <b>BEHIND</b> THE CONSOLE</h2>
   <div class="about-grid reveal">
     <div class="about-text">
-      <p>I'm a <strong>QA Lead &amp; SDET at Chat360</strong>, an AI-powered omnichannel SaaS platform in Pune. I lead a <span class="hl">10-engineer QA team</span>, owning automation strategy, framework architecture, and release quality end to end.</p>
-      <p>My core is hands-on engineering: building maintainable <strong>Java + Selenium</strong> frameworks, robust <strong>REST API test layers</strong>, and CI pipelines that catch regressions before they ship. I bridge manual rigor with automation velocity.</p>
-      <p>What sets me apart is depth in <span class="hl">GenAI &amp; LLM feature testing</span> — designing assertion strategies for non-deterministic outputs, hallucination detection, and intent-classification validation. The frontier of quality engineering.</p>
+      <p>I'm a <strong>QA Lead &amp; SDET at Chat360</strong>, an AI-powered omnichannel SaaS platform in Pune. I lead a <span class="hl">10-engineer QA team</span>, owning test strategy, framework architecture, and sprint-level quality gates across product, engineering, and AI/ML teams.</p>
+      <p>My core is hands-on engineering — I architected a <strong>Java + Selenium + TestNG + Maven</strong> framework on the Page Object Model that <span class="hl">cut manual testing effort by 40%</span>, and built Rest Assured suites covering 50+ REST endpoints wired into Jenkins CI/CD nightly pipelines.</p>
+      <p>What sets me apart is depth in <span class="hl">GenAI &amp; LLM feature testing</span> — validating intent classification, fallback logic, and prompt-response integrity across 120+ language inputs, plus hallucination detection with DeepEval, Promptfoo &amp; Giskard. I ship <span class="hl">zero-critical-escape releases</span>.</p>
     </div>
     <div class="panel">
       <div class="panel-tag">// SYSTEM_READOUT.dat</div>
       <div class="readout">
         <div class="row"><span>ROLE</span><span>QA Lead / SDET</span></div>
+        <div class="row"><span>COMPANY</span><span>Chat360</span></div>
         <div class="row"><span>BASE</span><span>Pune, MH · India</span></div>
-        <div class="row"><span>EXP</span><span>~4 Years</span></div>
+        <div class="row"><span>EXP</span><span>4+ Years</span></div>
         <div class="row"><span>EDU</span><span>MCA · B.Sc CS</span></div>
-        <div class="row"><span>NOTICE</span><span>30 Days</span></div>
         <div class="row"><span>TARGET</span><span>Senior SDET</span></div>
       </div>
     </div>
@@ -385,26 +412,34 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
       <div class="skill-head">Automation Core</div>
       <div class="skill-item"><div class="nm"><span>Java</span><span>EXPERT</span></div><div class="meter"><i data-w="92"></i></div></div>
       <div class="skill-item"><div class="nm"><span>Selenium WebDriver</span><span>EXPERT</span></div><div class="meter"><i data-w="93"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>TestNG</span><span>ADVANCED</span></div><div class="meter"><i data-w="88"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>Maven</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>BDD / Cucumber</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>TestNG</span><span>EXPERT</span></div><div class="meter"><i data-w="90"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Playwright</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>BDD / Cucumber</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
     </div>
     <div class="panel">
       <div class="skill-head">API &amp; CI/CD</div>
       <div class="skill-item"><div class="nm"><span>Rest Assured</span><span>EXPERT</span></div><div class="meter"><i data-w="90"></i></div></div>
       <div class="skill-item"><div class="nm"><span>Postman</span><span>EXPERT</span></div><div class="meter"><i data-w="91"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>Jenkins</span><span>ADVANCED</span></div><div class="meter"><i data-w="83"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>GitHub Actions</span><span>ADVANCED</span></div><div class="meter"><i data-w="82"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>SQL</span><span>ADVANCED</span></div><div class="meter"><i data-w="80"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Jenkins</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>GitHub Actions</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>SQL · Docker</span><span>PROFICIENT</span></div><div class="meter"><i data-w="80"></i></div></div>
     </div>
     <div class="panel">
       <div class="skill-head">GenAI / LLM QA</div>
+      <div class="skill-item"><div class="nm"><span>LLM Evaluation</span><span>ADVANCED</span></div><div class="meter"><i data-w="87"></i></div></div>
       <div class="skill-item"><div class="nm"><span>DeepEval</span><span>ADVANCED</span></div><div class="meter"><i data-w="86"></i></div></div>
       <div class="skill-item"><div class="nm"><span>Promptfoo</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
       <div class="skill-item"><div class="nm"><span>Giskard</span><span>PROFICIENT</span></div><div class="meter"><i data-w="78"></i></div></div>
       <div class="skill-item"><div class="nm"><span>Hallucination Eval</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
-      <div class="skill-item"><div class="nm"><span>Intent Validation</span><span>ADVANCED</span></div><div class="meter"><i data-w="83"></i></div></div>
     </div>
+  </div>
+  <div class="chiprow reveal">
+    <span class="chip">JavaScript</span><span class="chip">Python</span><span class="chip">MySQL</span>
+    <span class="chip">Maven</span><span class="chip">Page Object Model</span><span class="chip">Appium</span>
+    <span class="chip">Allure</span><span class="chip">SOAP UI</span><span class="chip">WireMock</span>
+    <span class="chip">JMeter</span><span class="chip">k6</span><span class="chip">ExtentReports</span>
+    <span class="chip">Log4j2</span><span class="chip">JIRA</span><span class="chip">Git</span>
+    <span class="chip">Linux</span><span class="chip">AWS S3 · EC2 · Lambda</span><span class="chip">Ollama</span>
   </div>
 </section>
 
@@ -413,14 +448,14 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
   <div class="kicker"><span class="num">03</span> / DIFFERENTIATOR</div>
   <div class="genai reveal">
     <h3>TESTING THE <b>NON-DETERMINISTIC</b></h3>
-    <p>Traditional QA assumes a fixed expected output. LLM-driven features don't play by those rules. I build evaluation strategies that hold quality lines even when the system answers differently every time — the discipline most QA teams haven't solved yet.</p>
+    <p>Traditional QA assumes a fixed expected output. LLM-driven features don't play by those rules. At Chat360 I built evaluation strategies for a production NLP chatbot engine — validating intent classification, fallback logic, and prompt-response integrity across 120+ language inputs, the discipline most QA teams haven't solved yet.</p>
     <div class="tags">
       <span>HALLUCINATION DETECTION</span>
       <span>INTENT CLASSIFICATION</span>
-      <span>SEMANTIC ASSERTIONS</span>
+      <span>FALLBACK LOGIC</span>
       <span>PROMPT REGRESSION</span>
       <span>GROUNDEDNESS SCORING</span>
-      <span>NON-DETERMINISTIC STRATEGY</span>
+      <span>120+ LANGUAGE INPUTS</span>
     </div>
   </div>
 </section>
@@ -431,48 +466,48 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
   <h2 class="title">PROJECT <b>ARCHIVE</b></h2>
   <div class="proj-grid reveal">
     <div class="proj">
-      <div class="id">// PRJ_001</div>
+      <div class="id"><span>// PRJ_001</span><a href="https://github.com/atulpatil87/autoapply" target="_blank" rel="noopener">↗ SOURCE</a></div>
+      <h3>AutoApply — AI Job Bot</h3>
+      <div class="metrics">
+        <div><b>4</b><em>JOB PORTALS</em></div>
+        <div><b>4×</b><em>AI ENGINES</em></div>
+        <div><b>∞</b><em>AUTOMATED</em></div>
+      </div>
+      <p>Full-stack automation platform with a cascading AI engine (OpenAI → Gemini → Ollama → keyword fallback), multi-portal workers for Naukri, LinkedIn, Indeed &amp; company pages, multi-ATS support, AI job scoring, and a real-time Express + Socket.io dashboard with live KPIs, logs &amp; screenshots.</p>
+      <div class="stack"><span>Node.js</span><span>Playwright</span><span>Express</span><span>Socket.io</span><span>SQLite</span><span>Ollama LLM</span></div>
+    </div>
+    <div class="proj">
+      <div class="id"><span>// PRJ_002</span><a href="https://github.com/atulstack0/Automation" target="_blank" rel="noopener">↗ SOURCE</a></div>
       <h3>Chat360 Test Framework</h3>
       <div class="metrics">
         <div><b>9</b><em>MODULES</em></div>
         <div><b>13</b><em>SUITES</em></div>
-        <div><b>CI</b><em>JENKINS</em></div>
+        <div><b>CI</b><em>JENKINS+GHA</em></div>
       </div>
-      <p>Enterprise automation framework — page-object architecture, Gmail API OTP handling, RetryAnalyzer for flake control, and ExtentReports dashboards wired into Jenkins.</p>
-      <div class="stack"><span>Java 17</span><span>Selenium 4</span><span>TestNG</span><span>Maven</span><span>ExtentReports</span></div>
+      <p>Selenium 4 + Java 17 + TestNG + Maven framework on the Page Object Model — 9 modules, 8 page objects, 13 suites. Rest-Assured API tests with Gmail API OTP extraction for 2FA, ExtentReports dashboards with Slack summaries, Log4j2, a flaky-test RetryAnalyzer, and GitHub Actions gates on every PR.</p>
+      <div class="stack"><span>Java 17</span><span>Selenium 4</span><span>TestNG</span><span>Maven</span><span>Rest Assured</span><span>ExtentReports</span></div>
     </div>
     <div class="proj">
-      <div class="id">// PRJ_002</div>
-      <h3>AutoApply</h3>
+      <div class="id"><span>// PRJ_003</span></div>
+      <h3>LLM Chatbot Eval Suite</h3>
       <div class="metrics">
-        <div><b>AI</b><em>LOCAL LLM</em></div>
-        <div><b>2</b><em>PLATFORMS</em></div>
-        <div><b>∞</b><em>AUTOMATED</em></div>
+        <div><b>120+</b><em>LANG INPUTS</em></div>
+        <div><b>NLP</b><em>ENGINE</em></div>
+        <div><b>BDD</b><em>CUCUMBER</em></div>
       </div>
-      <p>Job-application automation agent driving Naukri &amp; LinkedIn with Playwright, powered by a local Ollama model — dedup logging, session watchdog, per-platform search rounds.</p>
-      <div class="stack"><span>Node.js</span><span>Playwright</span><span>Ollama</span><span>Local LLM</span></div>
+      <p>AI/ML feature validation for Chat360's LLM-powered NLP chatbot engine — testing intent classification, fallback logic, prompt-response integrity, and edge-case handling across 120+ language inputs, with hallucination detection via DeepEval, Promptfoo &amp; Giskard.</p>
+      <div class="stack"><span>DeepEval</span><span>Promptfoo</span><span>Giskard</span><span>Cucumber</span><span>Prompt Testing</span></div>
     </div>
     <div class="proj">
-      <div class="id">// PRJ_003</div>
-      <h3>RBAC Test Suite</h3>
+      <div class="id"><span>// PRJ_004</span></div>
+      <h3>API &amp; Cross-Channel Suite</h3>
       <div class="metrics">
-        <div><b>131</b><em>CASES</em></div>
-        <div><b>11</b><em>MODULES</em></div>
-        <div><b>100%</b><em>COVERAGE</em></div>
+        <div><b>50+</b><em>ENDPOINTS</em></div>
+        <div><b>4</b><em>CHANNELS</em></div>
+        <div><b>JSON</b><em>SCHEMA</em></div>
       </div>
-      <p>Comprehensive role-based access-control validation across the platform — permission matrices, privilege escalation checks, and AI-assisted execution with structured results analysis.</p>
-      <div class="stack"><span>Test Design</span><span>RBAC</span><span>Excel Reporting</span></div>
-    </div>
-    <div class="proj">
-      <div class="id">// PRJ_004</div>
-      <h3>IP Restriction Suite</h3>
-      <div class="metrics">
-        <div><b>80</b><em>CASES</em></div>
-        <div><b>7</b><em>MODULES</em></div>
-        <div><b>SEC</b><em>FOCUSED</em></div>
-      </div>
-      <p>Network-access security test suite verifying IP allow/deny enforcement across user roles and entry points, with professionally formatted deliverables.</p>
-      <div class="stack"><span>Security QA</span><span>Access Control</span><span>Test Charters</span></div>
+      <p>Rest Assured &amp; Postman suites covering 50+ REST endpoints — WhatsApp Business API, CRM webhooks &amp; payment callbacks — with JSON schema and status-code validation. Cross-channel Selenium testing across WhatsApp, Instagram, Messenger &amp; web in nightly Jenkins pipelines.</p>
+      <div class="stack"><span>Rest Assured</span><span>Postman</span><span>WhatsApp API</span><span>Webhooks</span><span>Jenkins</span></div>
     </div>
   </div>
 </section>
@@ -490,17 +525,17 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
       </div>
     </div>
     <div class="repo-grid">
-      <a class="repo" href="https://github.com/atulstack0/Automation" target="_blank">
-        <div class="rn">Automation</div><div class="rd">Selenium automation programs &amp; framework practice.</div><div class="lang">Java</div></a>
-      <a class="repo" href="https://github.com/atulstack0/MyJavaPrograms" target="_blank">
+      <a class="repo" href="https://github.com/atulstack0/Automation" target="_blank" rel="noopener">
+        <div class="rn">Automation</div><div class="rd">Selenium test automation programs &amp; framework practice.</div><div class="lang">Java</div></a>
+      <a class="repo" href="https://github.com/atulstack0/LeetCode-Problems-Solution-Book" target="_blank" rel="noopener">
+        <div class="rn">LeetCode Solutions</div><div class="rd">Coding-challenge solution book — DSA &amp; problem solving.</div><div class="lang">C++</div></a>
+      <a class="repo" href="https://github.com/atulstack0/MyJavaPrograms" target="_blank" rel="noopener">
         <div class="rn">MyJavaPrograms</div><div class="rd">Core Java practice — DSA, logic &amp; fundamentals.</div><div class="lang">Java</div></a>
-      <a class="repo" href="https://github.com/atulstack0/Spark-Bank" target="_blank">
+      <a class="repo" href="https://github.com/atulstack0/Spark-Bank" target="_blank" rel="noopener">
         <div class="rn">Spark-Bank</div><div class="rd">Web development project (Sparks Foundation).</div><div class="lang">JavaScript</div></a>
-      <a class="repo" href="https://github.com/atulstack0/Shape-Ai-Bootstrap-Project" target="_blank">
+      <a class="repo" href="https://github.com/atulstack0/Shape-Ai-Bootstrap-Project" target="_blank" rel="noopener">
         <div class="rn">Shape-Ai-Project</div><div class="rd">HTML, CSS &amp; Bootstrap front-end build.</div><div class="lang">HTML</div></a>
-      <a class="repo" href="https://github.com/atulstack0/Portfolio" target="_blank">
-        <div class="rn">Portfolio</div><div class="rd">QA &amp; automation tester portfolio source.</div><div class="lang">CSS</div></a>
-      <a class="repo" href="https://github.com/atulstack0" target="_blank">
+      <a class="repo" href="https://github.com/atulstack0" target="_blank" rel="noopener">
         <div class="rn">View All →</div><div class="rd">Explore all 25 repositories on GitHub.</div><div class="lang">atulstack0</div></a>
     </div>
   </div>
@@ -512,22 +547,43 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
   <h2 class="title">OPERATIONAL <b>HISTORY</b></h2>
   <div class="timeline reveal">
     <div class="tl-item">
-      <div class="when">CURRENT</div>
+      <div class="when">JAN 2025 — PRESENT</div>
       <h3>QA Lead &amp; SDET</h3>
-      <div class="co">Chat360 · Pune</div>
-      <p>Lead a 10-engineer QA team. Architect Java/Selenium automation frameworks, own API test strategy with Rest Assured, drive CI quality gates, and pioneer GenAI/LLM feature validation for the conversational AI platform.</p>
+      <div class="co">Chat360 · Pune, India</div>
+      <p>Lead quality engineering for an AI-powered omnichannel SaaS platform, managing 10 QA engineers and owning test strategy across product, engineering &amp; AI/ML teams in Agile.</p>
+      <ul>
+        <li>Architected a Java/Selenium/TestNG/Maven framework on POM + PageFactory, enabling parallel data-driven execution and cutting manual effort <b>40%</b>.</li>
+        <li>Spearheaded LLM-chatbot validation — intent classification, fallback &amp; prompt integrity across <b>120+ language inputs</b> with BDD Cucumber.</li>
+        <li>Built Rest Assured + Postman suites for <b>50+ REST endpoints</b> (WhatsApp API, CRM webhooks, payment callbacks) in Jenkins nightly pipelines.</li>
+      </ul>
     </div>
     <div class="tl-item">
-      <div class="when">PRIOR</div>
+      <div class="when">MAY 2022 — JAN 2025</div>
       <h3>Software Tester</h3>
-      <div class="co">MiM-Essay</div>
-      <p>Executed functional, regression, and API testing across web products — building the manual and automation foundation that scaled into an SDET leadership track.</p>
+      <div class="co">MiM-Essay · Delhi, India</div>
+      <p>Executed manual &amp; automation testing across 4 products (MentR-Me, MiM-Essay, Kraya.ai &amp; an internal CRM) within a structured SDLC/STLC.</p>
+      <ul>
+        <li>Functional, smoke, sanity, exploratory &amp; regression cycles with JIRA defect tracking and requirement traceability.</li>
+        <li>Selenium, Playwright &amp; TestNG automation plus Postman/SOAP UI API testing — improving efficiency <b>30%</b> and cutting execution time <b>25%</b>.</li>
+        <li>Cross-browser verification across Chrome, Firefox, Safari &amp; Edge on Windows, macOS &amp; Android.</li>
+      </ul>
     </div>
     <div class="tl-item">
-      <div class="when">FOUNDATION</div>
+      <div class="when">2016 — 2023</div>
       <h3>MCA · B.Sc Computer Science</h3>
       <div class="co">Dr. B.A.M. University · North Maharashtra University</div>
-      <p>Computer-science grounding with early Java development and web internships — the engineering base under the QA discipline.</p>
+      <p>Master of Computer Applications (Aurangabad, 2021–2023) and B.Sc Computer Science (Jalgaon, 2016–2020) — the engineering base under the QA discipline.</p>
+    </div>
+  </div>
+
+  <div class="award reveal" style="margin-top:46px">
+    <div class="panel">
+      <div class="at">Release Shield Award</div>
+      <p>Earned for <strong style="color:var(--text)">zero critical defect escapes</strong> across Chat360 production releases.</p>
+    </div>
+    <div class="panel">
+      <div class="at">Framework Architect</div>
+      <p>Led setup of a new Selenium + TestNG automation framework integrated with Jenkins CI/CD from the ground up.</p>
     </div>
   </div>
 </section>
@@ -539,16 +595,18 @@ footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;let
     <h2 class="title">OPEN A <b>CHANNEL</b></h2>
     <p>Available for Senior QA / SDET roles. Let's talk automation architecture, quality at scale, or testing the AI frontier.</p>
     <div class="contact-links">
-      <a href="mailto:your.email@example.com" class="btn solid">▸ EMAIL</a>
-      <a href="https://linkedin.com/in/your-handle" class="btn" target="_blank">▸ LINKEDIN</a>
-      <a href="https://github.com/atulstack0" class="btn" target="_blank">▸ GITHUB</a>
+      <a href="mailto:atulstack@gmail.com" class="btn solid">▸ EMAIL</a>
+      <a href="https://www.linkedin.com/in/atulstack/" class="btn" target="_blank" rel="noopener">▸ LINKEDIN</a>
+      <a href="https://github.com/atulstack0" class="btn" target="_blank" rel="noopener">▸ GITHUB</a>
+      <a href="https://twitter.com/atulstack" class="btn" target="_blank" rel="noopener">▸ X / TWITTER</a>
+      <a href="https://drive.google.com/file/d/1b5_Wo1zZ3IrCR9mhLdbNw3DEqVf-A-_X/view" class="btn amber" target="_blank" rel="noopener">▸ RESUME</a>
     </div>
   </div>
 </section>
 
 </div>
 
-<footer>// END OF TRANSMISSION · ATUL PATIL © 2026 · BUILT IN THE NEW ERA</footer>
+<footer>// END OF TRANSMISSION · ATUL PATIL © 2026 · PUNE, IN · BUILT IN THE NEW ERA</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -600,8 +658,34 @@ function initOrb(){
   })();
 }
 
+// ===== TYPEWRITER =====
+function initType(){
+  const el=document.getElementById('typed');
+  if(!el)return;
+  const lines=[
+    'Architecting Java + Selenium frameworks',
+    'Testing the non-deterministic // GenAI + LLM',
+    'Zero critical escapes. Shipped.',
+    '50+ REST endpoints under Jenkins CI/CD'
+  ];
+  let li=0,ci=0,del=false;
+  (function tick(){
+    const cur=lines[li];
+    el.textContent=cur.slice(0,ci);
+    if(!del){
+      ci++;
+      if(ci>cur.length){del=true;setTimeout(tick,1600);return;}
+    }else{
+      ci--;
+      if(ci<0){del=false;li=(li+1)%lines.length;ci=0;}
+    }
+    setTimeout(tick,del?32:60);
+  })();
+}
+
 window.addEventListener('load',()=>{
   initOrb();
+  initType();
   const lines=document.querySelectorAll('#boot .line');
   lines.forEach((l,i)=>setTimeout(()=>{l.style.opacity=1},i*240));
   setTimeout(()=>document.getElementById('boot').classList.add('fade-out'),2400);
@@ -620,17 +704,16 @@ const io=new IntersectionObserver((es)=>{
       e.target.querySelectorAll('.meter i').forEach(m=>m.style.width=m.dataset.w+'%');
       // animate counters
       e.target.querySelectorAll('[data-count]').forEach(c=>{
-        const end=+c.dataset.count;let n=0;
+        const end=+c.dataset.count;const suffix=c.dataset.suffix||'';let n=0;
+        if(end===0){c.textContent='0'+suffix;return;}
         const step=Math.max(1,Math.ceil(end/45));
-        const t=setInterval(()=>{n+=step;if(n>=end){n=end;clearInterval(t);}c.textContent=n+(end===211?'+':'');},22);
+        const t=setInterval(()=>{n+=step;if(n>=end){n=end;clearInterval(t);}c.textContent=n+suffix;},22);
       });
       io.unobserve(e.target);
     }
   });
 },{threshold:.18});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-// also animate the statbar meters/counters even though it's outside section reveal
 </script>
 </body>
 </html>
