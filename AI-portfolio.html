@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL PATIL // SDET SYSTEM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04080d;
+  --bg2:#06111c;
+  --cyan:#39e7ff;
+  --cyan-dim:#1a8fa6;
+  --amber:#ffb347;
+  --line:rgba(57,231,255,.16);
+  --line-bright:rgba(57,231,255,.45);
+  --text:#cfe9f2;
+  --text-dim:#6a8a98;
+  --glow:0 0 12px rgba(57,231,255,.55);
+  --mono:'JetBrains Mono',monospace;
+  --disp:'Chakra Petch',sans-serif;
+  --body:'Outfit',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  overflow-x:hidden;
+  line-height:1.6;
+  cursor:crosshair;
+}
+::selection{background:var(--cyan);color:#04080d}
+
+/* ===== HUD BACKGROUND LAYERS ===== */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse 90% 80% at 50% 35%,#000 30%,transparent 85%);
+  animation:gridpan 24s linear infinite;
+}
+@keyframes gridpan{to{background-position:46px 46px}}
+.bg-glow{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(57,231,255,.12),transparent 40%),
+    radial-gradient(circle at 85% 80%,rgba(255,179,71,.07),transparent 40%);
+}
+.scanlines{
+  position:fixed;inset:0;z-index:60;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;opacity:.5;
+}
+.cursor-glow{
+  position:fixed;width:380px;height:380px;border-radius:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(circle,rgba(57,231,255,.10),transparent 65%);
+  transform:translate(-50%,-50%);transition:opacity .3s;
+}
+.vignette{position:fixed;inset:0;z-index:55;pointer-events:none;box-shadow:inset 0 0 200px 40px rgba(0,0,0,.85)}
+
+/* ===== HUD FRAME (screen corners) ===== */
+.hud-frame{position:fixed;inset:14px;z-index:50;pointer-events:none}
+.hud-frame span{position:absolute;width:34px;height:34px;border:2px solid var(--line-bright)}
+.hud-frame .tl{top:0;left:0;border-right:0;border-bottom:0}
+.hud-frame .tr{top:0;right:0;border-left:0;border-bottom:0}
+.hud-frame .bl{bottom:0;left:0;border-right:0;border-top:0}
+.hud-frame .br{bottom:0;right:0;border-left:0;border-top:0}
+.hud-frame .tick{position:absolute;font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--cyan-dim)}
+.hud-frame .t-top{top:6px;left:50%;transform:translateX(-50%)}
+.hud-frame .t-bot{bottom:6px;left:50%;transform:translateX(-50%)}
+
+/* ===== BOOT OVERLAY ===== */
+#boot{
+  position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  font-family:var(--mono);font-size:13px;letter-spacing:1px;
+  transition:opacity .6s ease;
+}
+#boot .bootbox{width:min(520px,86vw)}
+#boot .line{color:var(--cyan-dim);opacity:0;margin:3px 0;white-space:nowrap;overflow:hidden}
+#boot .ok{color:var(--cyan);float:right}
+#boot .bar{height:3px;background:rgba(57,231,255,.15);margin-top:18px;overflow:hidden}
+#boot .bar i{display:block;height:100%;width:0;background:var(--cyan);box-shadow:var(--glow);animation:load 2.2s ease forwards}
+@keyframes load{to{width:100%}}
+.fade-out{opacity:0!important;pointer-events:none}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:70;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 40px;font-family:var(--mono);font-size:12px;letter-spacing:2px;
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(4,8,13,.85),transparent);
+}
+nav .brand{color:var(--cyan);text-shadow:var(--glow);font-weight:700;display:flex;align-items:center;gap:9px}
+nav .brand .dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:var(--glow);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+nav .links{display:flex;gap:26px}
+nav .links a{color:var(--text-dim);text-decoration:none;transition:.25s;position:relative}
+nav .links a:hover{color:var(--cyan);text-shadow:var(--glow)}
+nav .links a::before{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--cyan);transition:.3s}
+nav .links a:hover::before{width:100%}
+@media(max-width:760px){nav .links{display:none}nav{padding:16px 20px}}
+
+/* ===== LAYOUT ===== */
+.wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 28px}
+section{padding:110px 0;position:relative}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--cyan-dim);display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.kicker::before{content:"";width:34px;height:1px;background:var(--cyan-dim)}
+.kicker .num{color:var(--cyan);text-shadow:var(--glow)}
+h2.title{font-family:var(--disp);font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:1px;line-height:1.05;margin-bottom:14px;text-transform:uppercase}
+h2.title b{color:var(--cyan);text-shadow:var(--glow)}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:90px}
+.hero-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:50px;align-items:center;width:100%}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+.status{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--amber);margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.status .live{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:pulse 1.4s infinite}
+.hero-name{font-family:var(--disp);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:.92;letter-spacing:1px;text-transform:uppercase}
+.hero-name span{display:block;color:var(--cyan);text-shadow:0 0 22px rgba(57,231,255,.5)}
+.hero-role{font-family:var(--mono);font-size:clamp(13px,1.8vw,17px);letter-spacing:3px;color:var(--text-dim);margin:24px 0 8px}
+.hero-role b{color:var(--text)}
+.hero-desc{max-width:520px;color:var(--text-dim);font-size:16px;margin-bottom:34px}
+.hero-desc em{color:var(--cyan);font-style:normal}
+.cta{display:flex;gap:16px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 26px;text-decoration:none;color:var(--cyan);border:1px solid var(--line-bright);
+  position:relative;transition:.25s;background:rgba(57,231,255,.04);
+  clip-path:polygon(0 0,100% 0,100% 70%,calc(100% - 14px) 100%,0 100%);
+}
+.btn:hover{background:var(--cyan);color:#04080d;box-shadow:var(--glow)}
+.btn.solid{background:rgba(57,231,255,.1)}
+
+/* hero HUD reticle panel */
+.reticle{position:relative;aspect-ratio:1;display:grid;place-items:center}
+.reticle svg{width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(57,231,255,.35))}
+.ring-rot{transform-origin:center;animation:spin 18s linear infinite}
+.ring-rot.rev{animation:spin 26s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reticle .core{position:absolute;text-align:center;font-family:var(--mono)}
+.reticle .core .big{font-family:var(--disp);font-size:38px;font-weight:700;color:var(--cyan);text-shadow:var(--glow);line-height:1}
+.reticle .core .lbl{font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-top:6px}
+@media(max-width:880px){.reticle{max-width:320px;margin:0 auto}}
+
+/* ===== STAT BAR ===== */
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:60px}
+.statbar .cell{background:var(--bg2);padding:22px 18px;text-align:center}
+.statbar .v{font-family:var(--disp);font-size:34px;font-weight:700;color:var(--cyan);text-shadow:var(--glow)}
+.statbar .k{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);margin-top:4px;text-transform:uppercase}
+@media(max-width:640px){.statbar{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== PANELS (generic HUD card) ===== */
+.panel{
+  border:1px solid var(--line);background:linear-gradient(160deg,rgba(6,17,28,.9),rgba(4,8,13,.7));
+  position:relative;padding:26px;
+}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--cyan)}
+.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.panel-tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--cyan-dim);margin-bottom:14px}
+
+/* ===== ABOUT ===== */
+.about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:34px;align-items:start}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr}}
+.about-text p{color:var(--text-dim);margin-bottom:18px;font-size:16px}
+.about-text strong{color:var(--text)}
+.about-text .hl{color:var(--cyan)}
+.readout{font-family:var(--mono);font-size:13px}
+.readout .row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line)}
+.readout .row span:first-child{color:var(--text-dim);letter-spacing:1px}
+.readout .row span:last-child{color:var(--cyan);text-align:right}
+
+/* ===== SKILLS ===== */
+.skill-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:820px){.skill-cols{grid-template-columns:1fr}}
+.skill-head{font-family:var(--disp);font-size:15px;letter-spacing:1px;color:var(--cyan);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.skill-head::before{content:"▸";color:var(--amber)}
+.skill-item{margin-bottom:15px}
+.skill-item .nm{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;margin-bottom:5px}
+.skill-item .nm span:last-child{color:var(--cyan-dim)}
+.meter{height:5px;background:rgba(57,231,255,.1);overflow:hidden;position:relative}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan-dim),var(--cyan));box-shadow:var(--glow);transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+
+/* ===== GENAI HIGHLIGHT ===== */
+.genai{border:1px solid var(--line-bright);background:linear-gradient(140deg,rgba(57,231,255,.07),rgba(255,179,71,.04));padding:42px;position:relative;overflow:hidden}
+.genai::before{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(57,231,255,.08),transparent);animation:sweep 5s ease-in-out infinite}
+@keyframes sweep{0%{left:-60%}55%,100%{left:130%}}
+.genai h3{font-family:var(--disp);font-size:clamp(22px,3vw,32px);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.genai h3 b{color:var(--amber)}
+.genai p{color:var(--text-dim);max-width:680px;margin-bottom:24px}
+.tags{display:flex;flex-wrap:wrap;gap:10px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:7px 14px;border:1px solid var(--line-bright);color:var(--cyan);background:rgba(57,231,255,.05)}
+
+/* ===== PROJECTS ===== */
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+@media(max-width:760px){.proj-grid{grid-template-columns:1fr}}
+.proj{padding:28px;border:1px solid var(--line);background:var(--bg2);position:relative;transition:.3s;overflow:hidden}
+.proj::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--cyan);box-shadow:var(--glow);transition:.4s}
+.proj:hover{border-color:var(--line-bright);transform:translateY(-4px)}
+.proj:hover::after{width:100%}
+.proj .id{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--amber);margin-bottom:12px}
+.proj h3{font-family:var(--disp);font-size:21px;letter-spacing:.5px;margin-bottom:12px;text-transform:uppercase}
+.proj p{color:var(--text-dim);font-size:14.5px;margin-bottom:18px}
+.proj .stack{display:flex;flex-wrap:wrap;gap:7px}
+.proj .stack span{font-family:var(--mono);font-size:10px;color:var(--cyan-dim);border:1px solid var(--line);padding:4px 9px}
+.proj .metrics{display:flex;gap:24px;margin-bottom:18px;font-family:var(--mono)}
+.proj .metrics div b{display:block;font-family:var(--disp);font-size:24px;color:var(--cyan);text-shadow:var(--glow)}
+.proj .metrics div em{font-style:normal;font-size:9px;letter-spacing:1px;color:var(--text-dim)}
+
+/* ===== EXPERIENCE ===== */
+.timeline{position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;background:var(--line-bright)}
+.tl-item{position:relative;margin-bottom:42px}
+.tl-item::before{content:"";position:absolute;left:-31px;top:5px;width:15px;height:15px;border:2px solid var(--cyan);background:var(--bg);box-shadow:var(--glow);transform:rotate(45deg)}
+.tl-item .when{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--amber);margin-bottom:6px}
+.tl-item h3{font-family:var(--disp);font-size:20px;letter-spacing:.5px;text-transform:uppercase}
+.tl-item .co{color:var(--cyan);font-family:var(--mono);font-size:13px;margin-bottom:10px}
+.tl-item p{color:var(--text-dim);font-size:15px}
+
+/* ===== CONTACT ===== */
+#contact .panel{padding:46px;text-align:center}
+#contact h2{margin-bottom:14px}
+#contact p{color:var(--text-dim);max-width:520px;margin:0 auto 30px}
+.contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+footer{text-align:center;padding:34px;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-dim);border-top:1px solid var(--line)}
+
+/* ===== 3D ORB ===== */
+.reticle{position:relative;aspect-ratio:1}
+.reticle #orb{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.reticle .reticle-rings{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;filter:drop-shadow(0 0 8px rgba(57,231,255,.35))}
+.orb-cap{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--text-dim);white-space:nowrap}
+
+/* ===== GITHUB FEED ===== */
+.gh-head{display:flex;align-items:center;gap:22px;flex-wrap:wrap;border:1px solid var(--line);background:var(--bg2);padding:22px 26px;margin-bottom:22px;position:relative}
+.gh-head::before{content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;border:2px solid var(--cyan);border-right:0;border-bottom:0}
+.gh-head img{width:68px;height:68px;border-radius:50%;border:2px solid var(--cyan);box-shadow:var(--glow)}
+.gh-head .meta{display:flex;flex-direction:column;font-size:13px;color:var(--text-dim)}
+.gh-head .meta b{font-family:var(--disp);font-size:20px;letter-spacing:.5px;color:var(--cyan);text-shadow:var(--glow)}
+.gh-head .pulls{display:flex;gap:24px;margin-left:auto;font-family:var(--mono)}
+.gh-head .pulls div{text-align:center;font-size:9px;letter-spacing:1px;color:var(--text-dim)}
+.gh-head .pulls div b{display:block;font-family:var(--disp);font-size:22px;color:var(--cyan);text-shadow:var(--glow)}
+@media(max-width:560px){.gh-head .pulls{margin-left:0;width:100%;justify-content:space-between}}
+.repo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.repo-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.repo-grid{grid-template-columns:1fr}}
+.repo{display:flex;flex-direction:column;padding:20px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(6,17,28,.9),rgba(4,8,13,.6));text-decoration:none;transition:.28s;position:relative;overflow:hidden;min-height:128px}
+.repo::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--cyan);box-shadow:var(--glow);transition:.4s}
+.repo:hover{border-color:var(--line-bright);transform:translateY(-4px)}
+.repo:hover::after{width:100%}
+.repo .rn{font-family:var(--disp);font-size:16px;letter-spacing:.5px;color:var(--text);margin-bottom:8px}
+.repo:hover .rn{color:var(--cyan)}
+.repo .rd{font-size:13px;color:var(--text-dim);flex:1;line-height:1.5}
+.repo .lang{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--cyan-dim);margin-top:14px;display:flex;align-items:center;gap:7px}
+.repo .lang::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:var(--glow)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="cursor-glow" id="cg"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="hud-frame">
+  <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+  <span class="tick t-top">// SYS.PORTFOLIO.v1 — STATUS: ONLINE</span>
+  <span class="tick t-bot">// PUNE · IN · 18.52°N 73.85°E</span>
+</div>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="bootbox">
+    <div class="line">> initializing core systems<span class="ok">[OK]</span></div>
+    <div class="line">> loading skill matrix . . . java/selenium/rest-assured<span class="ok">[OK]</span></div>
+    <div class="line">> mounting genai test modules<span class="ok">[OK]</span></div>
+    <div class="line">> calibrating HUD interface<span class="ok">[OK]</span></div>
+    <div class="line">> authenticating operator: A.PATIL<span class="ok">[OK]</span></div>
+    <div class="bar"><i></i></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="brand"><span class="dot"></span>A.PATIL_SDET</div>
+  <div class="links">
+    <a href="#about">[ ABOUT ]</a>
+    <a href="#skills">[ SKILLS ]</a>
+    <a href="#genai">[ GENAI ]</a>
+    <a href="#projects">[ PROJECTS ]</a>
+    <a href="#github">[ GITHUB ]</a>
+    <a href="#experience">[ LOG ]</a>
+    <a href="#contact">[ CONTACT ]</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="status"><span class="live"></span>OPERATOR ONLINE · OPEN TO SENIOR SDET ROLES</div>
+      <h1 class="hero-name">ATUL<span>PATIL</span></h1>
+      <div class="hero-role">QA LEAD &amp; <b>SDET</b> // TEST AUTOMATION ARCHITECT</div>
+      <p class="hero-desc">Engineering reliability at scale — I design automation frameworks in <em>Java &amp; Selenium</em>, validate APIs, and pioneer testing strategies for <em>GenAI &amp; LLM</em> systems where outputs are non-deterministic.</p>
+      <div class="cta">
+        <a href="#projects" class="btn solid">▸ VIEW PROJECTS</a>
+        <a href="#contact" class="btn">▸ ESTABLISH CONTACT</a>
+      </div>
+    </div>
+    <div class="reticle">
+      <canvas id="orb"></canvas>
+      <svg class="reticle-rings" viewBox="0 0 200 200" fill="none" stroke="var(--cyan)">
+        <circle class="ring-rot" cx="100" cy="100" r="94" stroke-width="1" stroke-dasharray="4 8" opacity=".5"/>
+        <circle class="ring-rot rev" cx="100" cy="100" r="76" stroke-width="1.5" stroke-dasharray="40 12 8 12"/>
+        <circle cx="100" cy="100" r="58" stroke-width="1" opacity=".4"/>
+        <g class="ring-rot" style="animation-duration:32s">
+          <line x1="100" y1="2" x2="100" y2="16" stroke-width="2"/>
+          <line x1="100" y1="184" x2="100" y2="198" stroke-width="2"/>
+          <line x1="2" y1="100" x2="16" y2="100" stroke-width="2"/>
+          <line x1="184" y1="100" x2="198" y2="100" stroke-width="2"/>
+        </g>
+        <circle cx="100" cy="100" r="42" stroke="var(--amber)" stroke-width="1" opacity=".5" stroke-dasharray="2 6"/>
+      </svg>
+      <div class="orb-cap">// QA.AUTOMATION.CORE · ONLINE</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="statbar reveal">
+  <div class="cell"><div class="v" data-count="10">0</div><div class="k">Engineers Led</div></div>
+  <div class="cell"><div class="v" data-count="211">0</div><div class="k">Test Cases Authored</div></div>
+  <div class="cell"><div class="v" data-count="13">0</div><div class="k">Automation Suites</div></div>
+  <div class="cell"><div class="v" data-count="3">0</div><div class="k">GenAI Eval Tools</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="kicker"><span class="num">01</span> / OPERATOR PROFILE</div>
+  <h2 class="title">WHO IS <b>BEHIND</b> THE CONSOLE</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>QA Lead &amp; SDET at Chat360</strong>, an AI-powered omnichannel SaaS platform in Pune. I lead a <span class="hl">10-engineer QA team</span>, owning automation strategy, framework architecture, and release quality end to end.</p>
+      <p>My core is hands-on engineering: building maintainable <strong>Java + Selenium</strong> frameworks, robust <strong>REST API test layers</strong>, and CI pipelines that catch regressions before they ship. I bridge manual rigor with automation velocity.</p>
+      <p>What sets me apart is depth in <span class="hl">GenAI &amp; LLM feature testing</span> — designing assertion strategies for non-deterministic outputs, hallucination detection, and intent-classification validation. The frontier of quality engineering.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">// SYSTEM_READOUT.dat</div>
+      <div class="readout">
+        <div class="row"><span>ROLE</span><span>QA Lead / SDET</span></div>
+        <div class="row"><span>BASE</span><span>Pune, MH · India</span></div>
+        <div class="row"><span>EXP</span><span>~4 Years</span></div>
+        <div class="row"><span>EDU</span><span>MCA · B.Sc CS</span></div>
+        <div class="row"><span>NOTICE</span><span>30 Days</span></div>
+        <div class="row"><span>TARGET</span><span>Senior SDET</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="kicker"><span class="num">02</span> / SKILL MATRIX</div>
+  <h2 class="title">SYSTEM <b>CAPABILITIES</b></h2>
+  <div class="skill-cols reveal">
+    <div class="panel">
+      <div class="skill-head">Automation Core</div>
+      <div class="skill-item"><div class="nm"><span>Java</span><span>EXPERT</span></div><div class="meter"><i data-w="92"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Selenium WebDriver</span><span>EXPERT</span></div><div class="meter"><i data-w="93"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>TestNG</span><span>ADVANCED</span></div><div class="meter"><i data-w="88"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Maven</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>BDD / Cucumber</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
+    </div>
+    <div class="panel">
+      <div class="skill-head">API &amp; CI/CD</div>
+      <div class="skill-item"><div class="nm"><span>Rest Assured</span><span>EXPERT</span></div><div class="meter"><i data-w="90"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Postman</span><span>EXPERT</span></div><div class="meter"><i data-w="91"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Jenkins</span><span>ADVANCED</span></div><div class="meter"><i data-w="83"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>GitHub Actions</span><span>ADVANCED</span></div><div class="meter"><i data-w="82"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>SQL</span><span>ADVANCED</span></div><div class="meter"><i data-w="80"></i></div></div>
+    </div>
+    <div class="panel">
+      <div class="skill-head">GenAI / LLM QA</div>
+      <div class="skill-item"><div class="nm"><span>DeepEval</span><span>ADVANCED</span></div><div class="meter"><i data-w="86"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Promptfoo</span><span>ADVANCED</span></div><div class="meter"><i data-w="84"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Giskard</span><span>PROFICIENT</span></div><div class="meter"><i data-w="78"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Hallucination Eval</span><span>ADVANCED</span></div><div class="meter"><i data-w="85"></i></div></div>
+      <div class="skill-item"><div class="nm"><span>Intent Validation</span><span>ADVANCED</span></div><div class="meter"><i data-w="83"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GENAI HIGHLIGHT -->
+<section id="genai">
+  <div class="kicker"><span class="num">03</span> / DIFFERENTIATOR</div>
+  <div class="genai reveal">
+    <h3>TESTING THE <b>NON-DETERMINISTIC</b></h3>
+    <p>Traditional QA assumes a fixed expected output. LLM-driven features don't play by those rules. I build evaluation strategies that hold quality lines even when the system answers differently every time — the discipline most QA teams haven't solved yet.</p>
+    <div class="tags">
+      <span>HALLUCINATION DETECTION</span>
+      <span>INTENT CLASSIFICATION</span>
+      <span>SEMANTIC ASSERTIONS</span>
+      <span>PROMPT REGRESSION</span>
+      <span>GROUNDEDNESS SCORING</span>
+      <span>NON-DETERMINISTIC STRATEGY</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="kicker"><span class="num">04</span> / DEPLOYED SYSTEMS</div>
+  <h2 class="title">PROJECT <b>ARCHIVE</b></h2>
+  <div class="proj-grid reveal">
+    <div class="proj">
+      <div class="id">// PRJ_001</div>
+      <h3>Chat360 Test Framework</h3>
+      <div class="metrics">
+        <div><b>9</b><em>MODULES</em></div>
+        <div><b>13</b><em>SUITES</em></div>
+        <div><b>CI</b><em>JENKINS</em></div>
+      </div>
+      <p>Enterprise automation framework — page-object architecture, Gmail API OTP handling, RetryAnalyzer for flake control, and ExtentReports dashboards wired into Jenkins.</p>
+      <div class="stack"><span>Java 17</span><span>Selenium 4</span><span>TestNG</span><span>Maven</span><span>ExtentReports</span></div>
+    </div>
+    <div class="proj">
+      <div class="id">// PRJ_002</div>
+      <h3>AutoApply</h3>
+      <div class="metrics">
+        <div><b>AI</b><em>LOCAL LLM</em></div>
+        <div><b>2</b><em>PLATFORMS</em></div>
+        <div><b>∞</b><em>AUTOMATED</em></div>
+      </div>
+      <p>Job-application automation agent driving Naukri &amp; LinkedIn with Playwright, powered by a local Ollama model — dedup logging, session watchdog, per-platform search rounds.</p>
+      <div class="stack"><span>Node.js</span><span>Playwright</span><span>Ollama</span><span>Local LLM</span></div>
+    </div>
+    <div class="proj">
+      <div class="id">// PRJ_003</div>
+      <h3>RBAC Test Suite</h3>
+      <div class="metrics">
+        <div><b>131</b><em>CASES</em></div>
+        <div><b>11</b><em>MODULES</em></div>
+        <div><b>100%</b><em>COVERAGE</em></div>
+      </div>
+      <p>Comprehensive role-based access-control validation across the platform — permission matrices, privilege escalation checks, and AI-assisted execution with structured results analysis.</p>
+      <div class="stack"><span>Test Design</span><span>RBAC</span><span>Excel Reporting</span></div>
+    </div>
+    <div class="proj">
+      <div class="id">// PRJ_004</div>
+      <h3>IP Restriction Suite</h3>
+      <div class="metrics">
+        <div><b>80</b><em>CASES</em></div>
+        <div><b>7</b><em>MODULES</em></div>
+        <div><b>SEC</b><em>FOCUSED</em></div>
+      </div>
+      <p>Network-access security test suite verifying IP allow/deny enforcement across user roles and entry points, with professionally formatted deliverables.</p>
+      <div class="stack"><span>Security QA</span><span>Access Control</span><span>Test Charters</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB -->
+<section id="github">
+  <div class="kicker"><span class="num">05</span> / OPEN REPOSITORIES</div>
+  <h2 class="title">GITHUB <b>FEED</b></h2>
+  <div class="reveal in">
+    <div class="gh-head">
+      <img src="https://avatars.githubusercontent.com/u/58878642?v=4" alt="atulstack0">
+      <div class="meta"><b>@atulstack0</b>Catch Bugs, Not Feelings... · Chat360 · Pune</div>
+      <div class="pulls">
+        <div><b>25</b>REPOS</div><div><b>x2</b>PULL SHARK</div><div><b>★</b>YOLO</div>
+      </div>
+    </div>
+    <div class="repo-grid">
+      <a class="repo" href="https://github.com/atulstack0/Automation" target="_blank">
+        <div class="rn">Automation</div><div class="rd">Selenium automation programs &amp; framework practice.</div><div class="lang">Java</div></a>
+      <a class="repo" href="https://github.com/atulstack0/MyJavaPrograms" target="_blank">
+        <div class="rn">MyJavaPrograms</div><div class="rd">Core Java practice — DSA, logic &amp; fundamentals.</div><div class="lang">Java</div></a>
+      <a class="repo" href="https://github.com/atulstack0/Spark-Bank" target="_blank">
+        <div class="rn">Spark-Bank</div><div class="rd">Web development project (Sparks Foundation).</div><div class="lang">JavaScript</div></a>
+      <a class="repo" href="https://github.com/atulstack0/Shape-Ai-Bootstrap-Project" target="_blank">
+        <div class="rn">Shape-Ai-Project</div><div class="rd">HTML, CSS &amp; Bootstrap front-end build.</div><div class="lang">HTML</div></a>
+      <a class="repo" href="https://github.com/atulstack0/Portfolio" target="_blank">
+        <div class="rn">Portfolio</div><div class="rd">QA &amp; automation tester portfolio source.</div><div class="lang">CSS</div></a>
+      <a class="repo" href="https://github.com/atulstack0" target="_blank">
+        <div class="rn">View All →</div><div class="rd">Explore all 25 repositories on GitHub.</div><div class="lang">atulstack0</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="kicker"><span class="num">06</span> / MISSION LOG</div>
+  <h2 class="title">OPERATIONAL <b>HISTORY</b></h2>
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="when">CURRENT</div>
+      <h3>QA Lead &amp; SDET</h3>
+      <div class="co">Chat360 · Pune</div>
+      <p>Lead a 10-engineer QA team. Architect Java/Selenium automation frameworks, own API test strategy with Rest Assured, drive CI quality gates, and pioneer GenAI/LLM feature validation for the conversational AI platform.</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">PRIOR</div>
+      <h3>Software Tester</h3>
+      <div class="co">MiM-Essay</div>
+      <p>Executed functional, regression, and API testing across web products — building the manual and automation foundation that scaled into an SDET leadership track.</p>
+    </div>
+    <div class="tl-item">
+      <div class="when">FOUNDATION</div>
+      <h3>MCA · B.Sc Computer Science</h3>
+      <div class="co">Dr. B.A.M. University · North Maharashtra University</div>
+      <p>Computer-science grounding with early Java development and web internships — the engineering base under the QA discipline.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="kicker"><span class="num">07</span> / TRANSMISSION</div>
+  <div class="panel reveal">
+    <h2 class="title">OPEN A <b>CHANNEL</b></h2>
+    <p>Available for Senior QA / SDET roles. Let's talk automation architecture, quality at scale, or testing the AI frontier.</p>
+    <div class="contact-links">
+      <a href="mailto:your.email@example.com" class="btn solid">▸ EMAIL</a>
+      <a href="https://linkedin.com/in/your-handle" class="btn" target="_blank">▸ LINKEDIN</a>
+      <a href="https://github.com/atulstack0" class="btn" target="_blank">▸ GITHUB</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>// END OF TRANSMISSION · ATUL PATIL © 2026 · BUILT IN THE NEW ERA</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ===== 3D HUD ORB =====
+function initOrb(){
+  const canvas=document.getElementById('orb');
+  if(!canvas||!window.THREE){return;}
+  const holder=canvas.parentElement;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
+  camera.position.z=3.3;
+
+  // wireframe core
+  const wire=new THREE.LineSegments(
+    new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(1,1)),
+    new THREE.LineBasicMaterial({color:0x39e7ff,transparent:true,opacity:.55})
+  );
+  scene.add(wire);
+  // faint inner shell
+  const inner=new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.6,1),
+    new THREE.MeshBasicMaterial({color:0x0c3640,transparent:true,opacity:.45})
+  );
+  scene.add(inner);
+  // particle halo
+  const N=460,p=new Float32Array(N*3);
+  for(let i=0;i<N;i++){
+    const r=1.5+Math.random()*0.55, t=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+    p[i*3]=r*Math.sin(ph)*Math.cos(t); p[i*3+1]=r*Math.sin(ph)*Math.sin(t); p[i*3+2]=r*Math.cos(ph);
+  }
+  const pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(p,3));
+  const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0x39e7ff,size:0.028,transparent:true,opacity:.85}));
+  scene.add(pts);
+
+  function size(){const s=holder.clientWidth;renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(s,s,false);camera.aspect=1;camera.updateProjectionMatrix();}
+  size(); addEventListener('resize',size);
+
+  let mx=0,my=0;
+  addEventListener('mousemove',e=>{mx=e.clientX/innerWidth-0.5;my=e.clientY/innerHeight-0.5;});
+  (function loop(){
+    requestAnimationFrame(loop);
+    wire.rotation.y+=0.004; wire.rotation.x+=0.0015;
+    inner.rotation.y-=0.003; pts.rotation.y-=0.0016; pts.rotation.x+=0.0008;
+    camera.position.x+=(mx*0.9-camera.position.x)*0.05;
+    camera.position.y+=(-my*0.9-camera.position.y)*0.05;
+    camera.lookAt(0,0,0);
+    renderer.render(scene,camera);
+  })();
+}
+
+window.addEventListener('load',()=>{
+  initOrb();
+  const lines=document.querySelectorAll('#boot .line');
+  lines.forEach((l,i)=>setTimeout(()=>{l.style.opacity=1},i*240));
+  setTimeout(()=>document.getElementById('boot').classList.add('fade-out'),2400);
+});
+
+// cursor glow
+const cg=document.getElementById('cg');
+window.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';});
+
+// reveal on scroll
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      // animate meters
+      e.target.querySelectorAll('.meter i').forEach(m=>m.style.width=m.dataset.w+'%');
+      // animate counters
+      e.target.querySelectorAll('[data-count]').forEach(c=>{
+        const end=+c.dataset.count;let n=0;
+        const step=Math.max(1,Math.ceil(end/45));
+        const t=setInterval(()=>{n+=step;if(n>=end){n=end;clearInterval(t);}c.textContent=n+(end===211?'+':'');},22);
+      });
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// also animate the statbar meters/counters even though it's outside section reveal
+</script>
+</body>
+</html>
